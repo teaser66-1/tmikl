@@ -6,7 +6,7 @@ export async function getStaticPaths() {
   const storyblokApi = useStoryblokApi();
   
   const { data } = await storyblokApi.get('cdn/links', {
-    version: 'draft',
+    version: 'published',
   });
   
   const links = Object.values(data.links);
@@ -21,20 +21,45 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const storyblokApi = useStoryblokApi();
 
+// Check if we're in Storyblok editor (has _storyblok query param)
+const isEditor = Astro.url.searchParams.has('_storyblok');
+const version = isEditor ? 'draft' : 'published';
+
 const { data } = await storyblokApi.get(`cdn/stories/${slug === undefined ? 'home' : slug}`, {
-  version: 'draft',
+  version: version,
 });
 
 const story = data.story;
 ---
 
+<!DOCTYPE html>
 <html lang="de">
   <head>
-    <title>{story.name || 'Storyblok & Astro'}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <title>{story.name || 'Storyblok & Astro'}</title>
+    
+    {isEditor && (
+      <script is:inline src="//app.storyblok.com/f/storyblok-v2-latest.js"></script>
+    )}
   </head>
   <body>
     <StoryblokComponent blok={story.content} />
+    
+    {isEditor && (
+      <script is:inline>
+        const { StoryblokBridge } = window;
+        
+        if (StoryblokBridge) {
+          const storyblokInstance = new StoryblokBridge();
+          
+          storyblokInstance.on(['input', 'published', 'change'], (event) => {
+            if (event.action === 'input') {
+              location.reload();
+            }
+          });
+        }
+      </script>
+    )}
   </body>
 </html>

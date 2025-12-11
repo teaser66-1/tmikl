@@ -13,10 +13,9 @@ export default defineConfig({
         grid: 'storyblok/Grid',
         feature: 'storyblok/Feature',
         hero: 'storyblok/Hero',
-        slider: 'storyblok/Slider',    // NEU
-        slide: 'storyblok/Slide',      // NEU
-}
-      },
+        slider: 'storyblok/Slider',
+        slide: 'storyblok/Slide',
+      }, 
       apiOptions: {
         region: '' 
       }

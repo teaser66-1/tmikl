@@ -1,0 +1,44 @@
+---
+import { useStoryblokApi } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+
+export async function getStaticPaths() {
+  const storyblokApi = useStoryblokApi();
+  // 1. Wir holen alle Links (Seiten) von Storyblok
+  const { data } = await storyblokApi.get('cdn/links', {
+    version: 'draft',
+  });
+  
+  const links = Object.values(data.links);
+
+  // 2. Wir sagen Astro, welche Pfade es geben soll
+  return links.map((link) => {
+    return {
+      // Wenn der Slug 'home' ist, machen wir die URL leer (Startseite), sonst nehmen wir den Slug
+      params: { slug: link.slug === 'home' ? undefined : link.slug },
+    };
+  });
+}
+
+// 3. Hier holen wir den aktuellen Slug aus der URL
+const { slug } = Astro.params;
+
+const storyblokApi = useStoryblokApi();
+// 4. Wir laden die Story passend zum Slug (oder 'home' wenn leer)
+const { data } = await storyblokApi.get(`cdn/stories/${slug === undefined ? 'home' : slug}`, {
+  version: 'draft',
+});
+
+const story = data.story;
+---
+
+<html lang="de">
+  <head>
+    <title>Storyblok & Astro</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+  <body>
+    <StoryblokComponent blok={story.content} />
+  </body>
+</html>

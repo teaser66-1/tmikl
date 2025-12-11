@@ -1,0 +1,16 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+const { blok } = Astro.props;
+---
+
+<div 
+  {...storyblokEditable(blok)} 
+  class="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20 px-4 text-center rounded-lg my-10 shadow-xl"
+>
+  <h2 class="text-5xl font-bold mb-4 drop-shadow-md">
+    {blok.headline}
+  </h2>
+  <p class="text-xl opacity-90">
+    Willkommen bei deinem neuen Projekt
+  </p>
+</div>

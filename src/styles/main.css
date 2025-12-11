@@ -1,0 +1,35 @@
+/* src/styles/main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  button, input, select, textarea {
+    @apply appearance-none bg-transparent border-0 outline-none;
+  }
+  
+  /* Wir stellen sicher, dass die Schriftart überall greift */
+  html {
+    font-family: 'Rethink Sans', sans-serif;
+  }
+}
+
+@layer components {
+  .all-\[unset\] { all: unset; }
+}
+
+/* Deine Animationen */
+:root { --animate-spin: spin 1s linear infinite; }
+.animate-fade-in { animation: fade-in 1s var(--animation-delay, 0s) ease forwards; }
+.animate-fade-up { animation: fade-up 1s var(--animation-delay, 0s) ease forwards; }
+.animate-spin { animation: var(--animate-spin); }
+
+@keyframes spin { to { transform: rotate(1turn); } }
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}

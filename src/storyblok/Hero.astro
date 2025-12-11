@@ -1,0 +1,61 @@
+---
+import { storyblokEditable } from '@storyblok/astro';
+import '../styles/main.css'; // Hier laden wir dein CSS!
+
+const { blok } = Astro.props;
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<section {...storyblokEditable(blok)} class="relative w-full max-w-[1440px] mx-auto bg-white overflow-hidden font-sans">
+  
+  <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[700px]">
+    
+    <div class="lg:col-span-7 px-6 pt-12 lg:pl-12 lg:pt-16 flex flex-col relative z-20">
+      
+      <header class="flex flex-col items-start mb-12">
+        <h1 class="font-bold text-th-cyan text-5xl lg:text-8xl tracking-[-1.92px] leading-tight lg:leading-[96px]">
+          {blok.subline || 'KONFERENZ 2025'}
+        </h1>
+
+        <div class="w-full lg:pl-[228px]">
+          <h2 class="font-bold text-th-dark text-5xl lg:text-8xl tracking-[-1.92px] leading-tight lg:leading-[96px]">
+            {blok.headline}
+          </h2>
+        </div>
+      </header>
+
+      <div class="flex flex-col items-start gap-12 lg:ml-12 max-w-xl">
+        {blok.text && (
+          <p class="font-medium text-th-grey text-xs tracking-[0.12px] leading-4 uppercase">
+            {blok.text}
+          </p>
+        )}
+
+        <button class="relative w-[204px] h-16 bg-th-cyan hover:bg-[#1599c7] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#1baae0] focus:ring-offset-2 text-white font-semibold text-xs tracking-[0.12px] uppercase">
+            {blok.button_text}
+        </button>
+      </div>
+
+      <div class="hidden lg:block absolute top-[281px] left-0 w-[152px] h-[152px]">
+         <svg viewBox="0 0 152 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="76" cy="76" r="70" stroke="#1BAAE0" stroke-width="12" transform="rotate(-90 76 76)" stroke-dasharray="220 1000" />
+         </svg>
+      </div>
+
+    </div>
+
+    <div class="relative h-[400px] lg:h-auto lg:col-span-5 lg:absolute lg:right-0 lg:top-0 lg:w-[40%] lg:bottom-0">
+      {blok.image?.filename && (
+        <img
+          class="w-full h-full object-cover"
+          alt={blok.image.alt}
+          src={blok.image.filename}
+        />
+      )}
+    </div>
+
+  </div>
+</section>

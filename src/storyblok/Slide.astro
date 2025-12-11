@@ -1,0 +1,111 @@
+---
+const { blok } = Astro.props;
+
+const overlayColor = blok.overlay_color?.color || blok.overlay_color || '#000000';
+const overlayOpacity = blok.overlay_opacity ? blok.overlay_opacity / 100 : 0.5;
+const textPosition = blok.text_position || 'center';
+
+let positionStyle = '';
+let textAlign = 'center';
+
+switch(textPosition) {
+  case 'center':
+    positionStyle = 'top: 50%; left: 50%; transform: translate(-50%, -50%);';
+    textAlign = 'center';
+    break;
+  case 'top-left':
+    positionStyle = 'top: 3rem; left: 3rem;';
+    textAlign = 'left';
+    break;
+  case 'top-right':
+    positionStyle = 'top: 3rem; right: 3rem;';
+    textAlign = 'right';
+    break;
+  case 'bottom-left':
+    positionStyle = 'bottom: 3rem; left: 3rem;';
+    textAlign = 'left';
+    break;
+  case 'bottom-right':
+    positionStyle = 'bottom: 3rem; right: 3rem;';
+    textAlign = 'right';
+    break;
+  case 'top':
+    positionStyle = 'top: 3rem; left: 50%; transform: translateX(-50%);';
+    textAlign = 'center';
+    break;
+  case 'bottom':
+    positionStyle = 'bottom: 3rem; left: 50%; transform: translateX(-50%);';
+    textAlign = 'center';
+    break;
+}
+---
+
+<div class="slide">
+  {blok.image?.filename && (
+    <img src={blok.image.filename} alt={blok.title || ''} />
+  )}
+  
+  <div 
+    class="overlay" 
+    style={`background-color: ${overlayColor}; opacity: ${overlayOpacity};`}
+  ></div>
+  
+  <div 
+    class="slide-content" 
+    style={`${positionStyle} text-align: ${textAlign};`}
+  >
+    {blok.title && <h2>{blok.title}</h2>}
+    {blok.description && <p>{blok.description}</p>}
+  </div>
+</div>
+
+<style>
+  .slide {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+  }
+  
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .slide-content {
+    position: absolute;
+    z-index: 3;
+    color: white;
+    padding: 1rem 2rem; /* Oben/Unten 1rem, Links/Rechts 2rem */
+    max-width: 800px;
+    background-color: rgba(0, 0, 0, 0.7); /* Dunkle Farbfläche */
+    border-radius: 0.5rem; /* Leicht abgerundete Ecken */
+  }
+  
+  .slide h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .slide p {
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

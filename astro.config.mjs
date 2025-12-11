@@ -8,13 +8,13 @@ export default defineConfig({
     storyblok({
       accessToken: process.env.STORYBLOK_TOKEN || 'KzHPMPvYvT8ua7whrtQM9Qtt',  // <-- GEÄNDERT
       components: {
-        page: 'storyblok/Page',
-        teaser: 'storyblok/Teaser',
-        grid: 'storyblok/Grid',
-        feature: 'storyblok/Feature',
-        hero: 'storyblok/Hero',
-        slider: 'storyblok/Slider',
-        slide: 'storyblok/Slide',
+        page: 'Page',
+        teaser: 'Teaser',
+        grid: 'Grid',
+        feature: 'Feature',
+        hero: 'Hero',
+        slider: 'Slider',
+        slide: 'Slide',
       },
       apiOptions: {
         region: '' 
